@@ -1,0 +1,23 @@
+<div *ngFor="let item of cartItems" class="home-container">
+    <mat-card class="example-card">
+      <mat-card-header>
+        
+        <mat-card-title><h2>{{item.product.general.brand}}</h2></mat-card-title>
+        <mat-card-subtitle><h3>{{item.product.general.modelName}}</h3></mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image src="./../../../assets/samsung.jpg" alt="Photo of a Shiba Inu">
+      <mat-card-content>
+        
+        <div><h2>{{ item.product.general.brand }} {{ item.product.general.modelName }} ({{ item.product.general.modelNumber }})</h2></div>
+        <div><h2>Display Features: {{ item.product.displayFeatures.size }}" {{ item.product.displayFeatures.resolution }}</h2></div>
+        <div><h2>Android Version: {{ item.product.osAndProcessor.os }} {{ item.product.osAndProcessor.version }}</h2></div>
+        <div><h2>Processor Variant: {{ item.product.osAndProcessor.psrBrand }} {{ item.product.osAndProcessor.psrName }} [{{ item.product.osAndProcessor.core }} Cores]</h2></div>
+        <div><h2>Primary Camera: {{ item.product.camera.primaryCamera }}</h2></div>
+        <div><h2>Secondary Camera: {{ item.product.camera.secondaryCamera }}</h2></div>
+        
+      </mat-card-content>
+      <mat-card-actions>
+        <button color="accent" (click)="onBuySubmit(item)" mat-raised-button>Buy Now</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>

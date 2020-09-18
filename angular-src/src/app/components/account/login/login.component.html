@@ -1,0 +1,31 @@
+<div class="log-container">
+    <h1 class="tab-header">Login.</h1>
+    <span class="column">
+        <mat-radio-group name="accountType" [(ngModel)]="accountType">
+            <mat-radio-button value="User">User</mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button value="Supplier">Supplier</mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button value="Admin">Admin</mat-radio-button>
+        </mat-radio-group>
+    </span><br><br>
+    <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit();">
+        <div class="row">
+            <mat-form-field appearance="outline" class="log-full-width">
+                <mat-label>User Name</mat-label>
+                <input matInput type="text" formControlName="userName" name="userName" class="form-control" id="userName" required>
+            </mat-form-field>
+        </div>
+        <div class="row">
+            <mat-form-field appearance="outline" class="log-full-width">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" name="password" class="form-control" id="password" required>
+            </mat-form-field>
+        </div>
+        
+        <button [disabled]="!loginForm.valid" mat-raised-button color="accent">Login &nbsp;&nbsp;<i class="material-icons">lock_open</i></button>
+        
+        
+    </form>
+    
+    <br><br>
+    Have you <a class="router-link" (click)="onClick" routerLink="/account/forgot-password">forgot your password</a>?
+</div>

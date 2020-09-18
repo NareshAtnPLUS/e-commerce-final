@@ -1,0 +1,14 @@
+<div class="mat-container tab-container">
+    <nav mat-tab-nav-bar animationDuration="700ms" [color]="colorToggle.value" [backgroundColor]="backgroundColorToggle.value">
+        <a class="tab-header-title" mat-tab-link
+        *ngFor="let link of navLinks"
+        [routerLink]="link.link"
+        routerLinkActive #rla="routerLinkActive"
+        [active]="rla.isActive">
+        {{link.label}}
+        </a>
+    </nav>
+    
+    <router-outlet></router-outlet>
+    <br><br>
+</div>

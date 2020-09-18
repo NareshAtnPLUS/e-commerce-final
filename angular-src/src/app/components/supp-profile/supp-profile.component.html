@@ -1,0 +1,121 @@
+<section>
+    <div class="top-container">
+
+
+        <mat-card class="profile-card">
+            <mat-card-header>
+                <mat-card-title><h1>User Profile</h1></mat-card-title>
+                <mat-card-subtitle><h2>{{user.accountType}}</h2></mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item>
+                        <span class="key"><h3>{{user.accountType}} ID</h3></span>
+                        <span class="spacer"></span>
+                        <span class="value"><h5> {{user.id}}</h5></span>
+                      </mat-list-item>
+                    <mat-list-item>
+                      <span class="key"><h3>Name</h3></span>
+                      <span class="spacer"></span>
+                      <span class="value"><h5> {{user.firstName}} {{user.lastName}} </h5></span>
+                    </mat-list-item>
+                    <mat-list-item>
+                        <span class="key"><h3>Email</h3></span>
+                        <span class="spacer"></span>
+                        <span class="value"><h5> {{user.email}} </h5></span>
+                      </mat-list-item>
+                    <mat-list-item>
+                        <span class="key"><h3>Username</h3></span>
+                        <span class="spacer"></span>
+                        <span class="value"><h5> {{user.username}} </h5></span>
+                      </mat-list-item>
+                      <mat-list-item>
+                        <span class="key"><h3>Ether Balance</h3></span>
+                        <span class="spacer"></span>
+                        <span class="value"><h5> {{user.balance}} ETH </h5></span>
+                      </mat-list-item>
+                      <div *ngFor="let addressElement of user.address">
+                        <mat-list-item>
+                            <span class="key"><h3>Door No</h3></span>
+                            <span class="spacer"></span>
+                            <span class="value"><p> {{addressElement.doorNo}}</p></span>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <span class="key"><h3>Street</h3></span>
+                            <span class="spacer"></span>
+                            <span class="value"><p>{{addressElement.street}}</p></span>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <span class="key"><h3>District</h3></span>
+                            <span class="spacer"></span>
+                            <span class="value"><p> {{addressElement.district}}</p></span>
+                        </mat-list-item>
+                        <mat-list-item>
+                            <span class="key"><h3>State</h3></span>
+                            <span class="spacer"></span>
+                            <span class="value"><p> {{addressElement.state}}</p></span>
+                        </mat-list-item>    
+                      </div>
+                  </mat-list>
+            </mat-card-content>
+        </mat-card>
+        
+        <mat-card class="nav-card">
+            <mat-card-header>
+                <div mat-card-avatar class="avatar"></div>
+                <mat-card-title>Navigate</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <a mat-raised-button color="accent" routerLink="/supplier/add-products/add-mobile">Add Mobile</a>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</section>
+
+<!--<mat-card class="container profile-card">
+    <mat-card-header>
+        <div mat-card-avatar class="avatar"></div>
+        <mat-card-title>Search Github Profile</mat-card-title>
+        <mat-card-subtitle>with username</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="profileSearchForm" (ngSubmit)="onSubmit()">
+            <span class="search-button">
+                <mat-form-field class="reg-full-width">
+                    <input matInput type="text" formControlName="userName" name="userName" class="form-control" id="userName" placeholder="Enter User Name" required>
+                </mat-form-field>
+            </span>
+            <button [disabled]="!profileSearchForm.valid" mat-raised-button color="accent" class="button" type="submit">Search</button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<br><br>
+<div *ngIf="githubUsers">
+
+    <mat-card class="container profile-card"     *ngFor="let item of githubUsers;">
+        <mat-card-header>
+            <img src="{{item.avatar_url}}" mat-card-avatar alt="account-image">
+            <mat-card-title>{{item.login}}</mat-card-title>
+            <mat-card-subtitle>{{item.id}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-accordion>
+                <mat-expansion-panel (opened)="panelOpenState = true"
+                    (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            {{item.login}}
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{item.id}}
+                        </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <p>URL: {{item.html_url}}</p>
+                        <p>Followers {{item.followers_url}}</p>
+                        <p>Following {{item.following_url}}</p>
+                        <p>Repos {{item.repos_url}}</p>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </mat-card-content>
+    </mat-card>
+</div>-->

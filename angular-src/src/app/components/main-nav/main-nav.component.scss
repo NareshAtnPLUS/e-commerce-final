@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css?family=Catamaran:800&display=swap");
+.sidenav-container {
+  height: 100%;
+}
+.top-nav {
+  position: fixed;
+}
+.sidenav {
+  width: 200px;
+}
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.branding {
+  font-family: "Catamaran";
+  margin-left: 0.5rem;
+  font-size: 1.7rem;
+  color: black;
+
+  //margin-top: .rem;
+}
+.flex-containr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+img {
+  display: block;
+  max-width: 140px;
+  max-height: 60px;
+  width: auto;
+  height: auto;
+}
+#shop-mart-logo {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #b40163;
+}

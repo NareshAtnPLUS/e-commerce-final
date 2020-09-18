@@ -1,0 +1,166 @@
+<div class="container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Add Mobile</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="mobileForm" (ngSubmit)=onAddMobileSubmit();>
+                <div formGroupName="general" id="general" class="row">
+                    <div class="row">
+                        <mat-form-field appearance="legacy" class="mob-min-width">
+                            <mat-label>Brand</mat-label>
+                            <input matInput type="text" formControlName="brand" name="brand" class="form-control" id="brand" placeholder="Samsung" required>
+                        </mat-form-field>
+                        <mat-form-field appearance="legacy" class="mob-min-width">
+                            <mat-label>Model Name</mat-label>
+                            <input matInput type="text" formControlName="modelName" name="modelName" class="form-control" id="modelName" placeholder="Galaxy A50" required>
+                        </mat-form-field>
+                        <mat-form-field appearance="legacy"  class="mob-min-width">
+                            <mat-label>Model Number</mat-label>
+                            <input matInput type="text" formControlName="modelNumber" name="modelNumber" class="form-control" id="modelNumber" placeholder="SM A505FD" required>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <mat-form-field class="example-chip-list">
+                        <mat-chip-list #chipList aria-label="color selection">
+                          <mat-chip
+                            *ngFor="let color of colors"
+                            [selectable]="selectable"
+                            [removable]="removable"
+                            (removed)="remove(color)">
+                            {{color}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                          </mat-chip>
+                          <input
+                            placeholder="New color..."
+                            #colorInput
+                            [formControl]="colorCtrl"
+                            [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            [matChipInputAddOnBlur]="addOnBlur"
+                            (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                          <mat-option *ngFor="let color of filteredcolors | async" [value]="color">
+                            {{color}}
+                          </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div formArrayName="variants">
+                    <div *ngFor="let variant of mobileForm.controls.variants.controls; let i = index">
+                        <span><h5>Variant {{i + 1}}</h5></span>
+                        <span *ngIf="mobileForm.controls.variants.controls.length > 1" (click)="removeVariant(i)"></span>
+                        <div [formGroupName]="i">                            
+                            <mat-form-field appearance="legacy"  class="mob-min-width">
+                                <mat-label>Price</mat-label>
+                                <input matInput type="text" formControlName="price" name="price" class="form-control" id="price" placeholder="₹21,500" required>
+                            </mat-form-field>
+                            <mat-form-field appearance="legacy"  class="mob-min-width">
+                                <mat-label>Available</mat-label>
+                                <input matInput type="number" formControlName="available" name="available" class="form-control" id="available" placeholder="10" required>
+                            </mat-form-field>
+                            <mat-form-field appearance="legacy"  class="mob-min-width">
+                                <mat-label>Internal Storage</mat-label>
+                                <input matInput type="number" formControlName="internalStorage" name="internalStorage" class="form-control" id="internalStorage" placeholder="64" required>
+                            </mat-form-field>
+                            <mat-form-field appearance="legacy"  class="mob-min-width">
+                                <mat-label>RAM</mat-label>
+                                <input matInput type="number" formControlName="ram" name="ram" class="form-control" id="ram" placeholder="6" required>
+                            </mat-form-field>
+                            <mat-form-field appearance="legacy"  class="mob-min-width">
+                                <mat-label>Expandable Memory</mat-label>
+                                <input matInput type="number" formControlName="expandableMemory" name="expandable" class="form-control" id="expandable" placeholder="256" required>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <button mat-button (click)="addVariant()">Add Variant</button>
+                <div formGroupName="displayFeatures" id="displayFeatures" class="row">
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Display </mat-label>
+                        <input matInput type="number" formControlName="size" name="size" class="form-control" id="size" placeholder="5.5" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Resolution</mat-label>
+                        <input matInput type="text" formControlName="resolution" name="resolution" class="form-control" id="resolution" placeholder="1920x1080" required>
+                    </mat-form-field>    
+                </div>
+                <div formGroupName="osAndProcessor" id="osAndProcessor" class="row">
+                    <div class="row" id="os">
+                        <h4>Operating System</h4>
+                        <mat-radio-group name="accountType" formControlName="os">
+                            <mat-radio-button value="Android">Android</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="iOS">iOS</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="Others">Others</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Version</mat-label>
+                        <input matInput type="number" formControlName="version" name="version" class="form-control" id="version" placeholder="9.1" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy"  class="mob-min-width">
+                        <mat-label>Processor Brand</mat-label>
+                        <input matInput type="text" formControlName="psrBrand" name="psrBrand" class="form-control" id="psrBrand" placeholder="Qualcomm" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Processor Name</mat-label>
+                        <input matInput type="text" formControlName="psrName" name="psrName" class="form-control" id="psrName" placeholder="Snapdragon 855" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Number of Cores</mat-label>
+                        <input matInput type="number" formControlName="core" name="core" class="form-control" id="core" placeholder="8" required>
+                    </mat-form-field>                    
+                </div>
+                <div formGroupName="camera" id="camera" class="row">
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Primary Camera</mat-label>
+                        <input matInput type="text" formControlName="primaryCamera" name="primaryCamera" class="form-control" id="primaryCamera" placeholder="25MP + 5MP + 2MP" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Secondary Camera</mat-label>
+                        <input matInput type="text" formControlName="secondaryCamera" name="secondaryCamera" class="form-control" id="secondaryCamera" placeholder="25MP" required>
+                    </mat-form-field>    
+                </div>
+                <div formGroupName="networkFeatures" id="networkFeatures" class="row">
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Network Generation</mat-label>
+                        <input matInput type="text" formControlName="networkGen" name="networkGen" class="form-control" id="networkGen" placeholder="4G" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Connectivity Features</mat-label>
+                        <input matInput type="text" formControlName="connectivity" name="connectivity" class="form-control" id="connectivity" placeholder="4G Wifi Blutooth(4) NFC" required>
+                    </mat-form-field>    
+                </div>
+                <div formGroupName="dimension" id="dimension" class="row">
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Width(in mm)</mat-label>
+                        <input matInput type="number" formControlName="width" name="width" class="form-control" id="width" placeholder="74.5" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Height (in mm)</mat-label>
+                        <input matInput type="number" formControlName="height" name="height" class="form-control" id="height" placeholder="158.5" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>thickness (in  mm)</mat-label>
+                        <input matInput type="number" formControlName="thickness" name="thickness" class="form-control" id="thickness" placeholder="7.7" required>
+                    </mat-form-field>    
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Weight (in grams)</mat-label>
+                        <input matInput type="number" formControlName="weight" name="weight" class="form-control" id="weight" placeholder="166" required>
+                    </mat-form-field>    
+                </div>
+                <div formGroupName="brandWarranty" id="brandWarranty" class="row">
+                    <mat-form-field appearance="legacy" class="mob-min-width">
+                        <mat-label>Brand Warranty (in years)</mat-label>
+                        <input matInput type="text" formControlName="brandWarranty" name="brandWarranty" class="form-control" id="brandWarranty" placeholder="1" required>
+                    </mat-form-field>
+                </div>
+                <button type="submit" [disabled]="!mobileForm.valid"  mat-raised-button color="accent">Add Mobile &nbsp;&nbsp;<i class="material-icons">input</i></button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
+<!---->

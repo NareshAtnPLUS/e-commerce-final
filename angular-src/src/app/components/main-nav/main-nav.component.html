@@ -1,0 +1,673 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #appDrawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item (click)="appDrawer.toggle()" routerLink="">Home</a>
+      <a mat-list-item (click)="appDrawer.toggle()" routerLink="/profile"
+        >Profile</a
+      >
+      <a
+        mat-list-item
+        *ngIf="!authService.isLoggedIn()"
+        (click)="appDrawer.toggle()"
+        routerLink="/account/login"
+        >Account</a
+      >
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="appDrawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+
+      <span class="flex-containr">
+        <img src="../../../assets/glosys.jpg" alt="" />
+        <h2 class="branding">ShopMart</h2>
+      </span>
+      <span class="spacer"></span>
+      <div class="navbar" *ngIf="!(isHandset$ | async)">
+        <button
+          mat-button
+          (click)="(onClick)"
+          [routerLinkActive]="['active']"
+          routerLink="/"
+        >
+          Home
+        </button>
+        <button
+          mat-button
+          (click)="(onClick)"
+          [routerLinkActive]="['active']"
+          routerLink="/profile"
+        >
+          Profile
+        </button>
+        <button
+          mat-button
+          *ngIf="authService.isLoggedIn()"
+          matBadge="{{ cartLength }}"
+          matBadgePosition="after"
+          matBadgeColor="accent"
+          [routerLinkActive]="['active']"
+          routerLink="/cart"
+        >
+          Cart
+        </button>
+        <button
+          mat-button
+          *ngIf="!authService.isLoggedIn()"
+          (click)="(onClick)"
+          [routerLinkActive]="['active']"
+          routerLink="/account/login"
+        >
+          Account
+        </button>
+        <button
+          mat-button
+          *ngIf="authService.isLoggedIn()"
+          (click)="onLogoutClick()"
+          [routerLinkActive]="['active']"
+          routerLink="/account"
+        >
+          Logout
+        </button>
+      </div>
+    </mat-toolbar>
+    <!-- Add Content Here -->
+    <nav mat-tab-nav-bar class="top-nav" mat-elevation-z5>
+      <mat-nav-list class="navbar-categories">
+        <a mat-tab-link [matMenuTriggerFor]="electronics"
+          >Electronics<i class="material-icons">arrow_drop_down</i></a
+        >
+        <a mat-tab-link [matMenuTriggerFor]="men"
+          >Men<i class="material-icons">arrow_drop_down</i></a
+        >
+        <a mat-tab-link [matMenuTriggerFor]="baby"
+          >Baby & Kids<i class="material-icons">arrow_drop_down</i></a
+        >
+        <a mat-tab-link [matMenuTriggerFor]="homeAppliances"
+          >Home Appliances<i class="material-icons">arrow_drop_down</i></a
+        >
+        <a
+          mat-tab-link
+          [matMenuTriggerFor]="sportsBooks"
+          *ngIf="!(isHandset$ | async)"
+          >Sports,Books & More<i class="material-icons">arrow_drop_down</i></a
+        >
+        <a
+          mat-tab-link
+          (click)="(onClick)"
+          *ngIf="!(isHandset$ | async)"
+          routerLink="/offer-zone"
+          >Offer Zone</a
+        >
+      </mat-nav-list>
+    </nav>
+    <mat-menu #sportsBooks="matMenu">
+      <a [matMenuTriggerFor]="sports" mat-menu-item>Sports</a>
+      <a [matMenuTriggerFor]="exercise" mat-menu-item>Exercise Fitness</a>
+      <a [matMenuTriggerFor]="foodEssentials" mat-menu-item>Food Essentials</a>
+      <a [matMenuTriggerFor]="healthNutrition" mat-menu-item
+        >Health & Nutrition</a
+      >
+      <a [matMenuTriggerFor]="books" mat-menu-item>Books</a>
+      <a [matMenuTriggerFor]="stationery" mat-menu-item>Stationery</a>
+      <a [matMenuTriggerFor]="autoAccessories" mat-menu-item
+        >Auto Accessories</a
+      >
+      <a [matMenuTriggerFor]="industrialScientific" mat-menu-item
+        >Industrial & Scientific tools</a
+      >
+      <a [matMenuTriggerFor]="medicalSupplies" mat-menu-item
+        >Medical Supplies</a
+      >
+      <a [matMenuTriggerFor]="music" mat-menu-item>Music</a>
+      <a [matMenuTriggerFor]="gamingSports" mat-menu-item>Gaming</a>
+      <a mat-menu-item>Grocery (Selected Cities)</a>
+    </mat-menu>
+    <mat-menu #gamingSports="matMenu">
+      <a mat-menu-item>Gaming Consoles</a>
+      <a mat-menu-item>Gaming Accessories</a>
+      <a mat-menu-item>PS4 Games</a>
+      <a mat-menu-item>Smart Glasses (VR)</a>
+    </mat-menu>
+    <mat-menu #music="matMenu">
+      <a mat-menu-item>Musical Instruments</a>
+      <a mat-menu-item>Music</a>
+      <a mat-menu-item>Movies & Tv shows</a>
+    </mat-menu>
+    <mat-menu #medicalSupplies="matMenu">
+      <a mat-menu-item>Pregnancy and Fertility Kits</a>
+      <a mat-menu-item>Hot Water Bag</a>
+    </mat-menu>
+    <mat-menu #industrialScientific="matMenu">
+      <a mat-menu-item>Industrial Measurement Devices</a>
+      <a mat-menu-item>Industrial Testing Devices</a>
+      <a mat-menu-item>Lab & Scientific Products</a>
+      <a mat-menu-item>Packaging & Shipping Products</a>
+      <a mat-menu-item>Safety Products</a>
+    </mat-menu>
+    <mat-menu #autoAccessories="matMenu">
+      <a mat-menu-item>Helmets & Riding Gears</a>
+      <a mat-menu-item>Car Audio/Video</a>
+      <a mat-menu-item>Car Mobile Accessories</a>
+      <a mat-menu-item>Car & Bike Care</a>
+      <a mat-menu-item>Vehicle Lubricants</a>
+    </mat-menu>
+    <mat-menu #stationery="matMenu">
+      <a mat-menu-item>Pens</a>
+      <a mat-menu-item>Diaries</a>
+      <a mat-menu-item>Card Holders</a>
+      <a mat-menu-item>Desk Organizers</a>
+      <a mat-menu-item>Calculators</a>
+      <a mat-menu-item>Key Chains</a>
+    </mat-menu>
+    <mat-menu #books="matMenu">
+      <a mat-menu-item>Entrance Exams</a>
+      <a mat-menu-item>Academics</a>
+      <a mat-menu-item>Literature & Fiction</a>
+      <a mat-menu-item>Non Fiction</a>
+      <a mat-menu-item>Young Readers</a>
+      <a mat-menu-item>Self-Help</a>
+      <a mat-menu-item>Business</a>
+      <a mat-menu-item>Preorders</a>
+      <a mat-menu-item>Indian Languages</a>
+    </mat-menu>
+    <mat-menu #healthNutrition="matMenu">
+      <a mat-menu-item>All Supplements</a>
+      <a mat-menu-item>Protein Supplements</a>
+      <a mat-menu-item>Vitamin Supplements</a>
+      <a mat-menu-item>Health Drinks</a>
+      <a mat-menu-item>Ayurvedic Supplements</a>
+    </mat-menu>
+    <mat-menu #foodEssentials="matMenu">
+      <a mat-menu-item>Nuts & Dry Fruits</a>
+      <a mat-menu-item>Tea, Coffee and Beverages</a>
+      <a mat-menu-item>Chocolates</a>
+      <a mat-menu-item>Snacks Corner</a>
+      <a mat-menu-item>Gifting Combos</a>
+      <a mat-menu-item>Sweets Store</a>
+      <a mat-menu-item>Jams, Spreads and Honey</a>
+      <a mat-menu-item>Breakfast Items</a>
+    </mat-menu>
+    <mat-menu #exercise="matMenu">
+      <a mat-menu-item>Cardio Equipment</a>
+      <a mat-menu-item>Home Gyms</a>
+      <a mat-menu-item>Support</a>
+      <a mat-menu-item>Dumbbells</a>
+      <a mat-menu-item>Ab Exercisers</a>
+      <a mat-menu-item>Shakers & Sippers</a>
+      <a mat-menu-item>Yoga Mat</a>
+      <a mat-menu-item>Gym Gloves</a>
+    </mat-menu>
+    <mat-menu #sports="matMenu">
+      <a mat-menu-item>Cricket</a>
+      <a mat-menu-item>Badminton</a>
+      <a mat-menu-item>Cycling</a>
+      <a mat-menu-item>Football</a>
+      <a mat-menu-item>Skating</a>
+      <a mat-menu-item>Camping & Hiking</a>
+      <a mat-menu-item>Swimming</a>
+    </mat-menu>
+    <mat-menu #homeAppliances="matMenu">
+      <a [matMenuTriggerFor]="kitchenCookware" mat-menu-item
+        >Kitchen, Cookware & Serveware</a
+      >
+      <a [matMenuTriggerFor]="tableWare" mat-menu-item
+        >Tableware & Dinnerware</a
+      >
+      <a [matMenuTriggerFor]="kitchenStorage" mat-menu-item>Kitchen Storage</a>
+      <a mat-menu-item>Cleaning Supplies</a>
+      <a mat-menu-item>Furniture Top Offers</a>
+      <a [matMenuTriggerFor]="bedroomFurniture" mat-menu-item
+        >Bed Room Furniture</a
+      >
+      <a [matMenuTriggerFor]="livingroomFurniture" mat-menu-item
+        >Living Room Furniture</a
+      >
+      <a [matMenuTriggerFor]="officeFurniture" mat-menu-item
+        >Office & Study Furniture</a
+      >
+      <a [matMenuTriggerFor]="diyFurniture" mat-menu-item>DIY Furniture</a>
+      <a [matMenuTriggerFor]="furnishing" mat-menu-item>Furnishing</a>
+      <a [matMenuTriggerFor]="smartHomeautomation" mat-menu-item
+        >Smart Home Automation</a
+      >
+      <a [matMenuTriggerFor]="homeImprovement" mat-menu-item
+        >Home Improvement</a
+      >
+      <a [matMenuTriggerFor]="homeDoctor" mat-menu-item>Home Decor</a>
+      <a [matMenuTriggerFor]="homeLighting" mat-menu-item>Home Lighting</a>
+      <a mat-menu-item>Festive Decor & Gifts</a>
+      <a [matMenuTriggerFor]="petSupplies" mat-menu-item>Pet Supplies</a>
+      <a mat-menu-item>Durability Certified Furniture</a>
+      <a mat-menu-item>Featured</a>
+      <a mat-menu-item>Christmas Store</a>
+      <a mat-menu-item>Gardening Store</a>
+      <a mat-menu-item>Perfect Home Store</a>
+    </mat-menu>
+    <mat-menu #gardeningStore="matMenu">
+      <a mat-menu-item>Stainless Steel Store</a>
+      <a mat-menu-item>Milton</a>
+      <a mat-menu-item>Bombay Dyeing</a>
+      <a mat-menu-item>@home</a>
+      <a mat-menu-item>HomeTown</a>
+      <a mat-menu-item>Ajanta</a>
+      <a mat-menu-item>Spaces by Welspun</a>
+      <a mat-menu-item>Prestige</a>
+    </mat-menu>
+    <mat-menu #petSupplies>
+      <a mat-menu-item>Dogs</a>
+      <a mat-menu-item>Cats</a>
+      <a mat-menu-item>Fish & Aquatics</a>
+    </mat-menu>
+    <mat-menu #homeDoctor="matMenu">
+      <a mat-menu-item>Paintings</a>
+      <a mat-menu-item>Clocks</a>
+      <a mat-menu-item>Wall Shelves</a>
+      <a mat-menu-item>Stickers</a>
+      <a mat-menu-item>Showpieces & Figurines</a>
+    </mat-menu>
+    <mat-menu #homeLighting="matMenu">
+      <a mat-menu-item>Bulbs</a>
+      <a mat-menu-item>Wall Lamp</a>
+      <a mat-menu-item>Table Lamp</a>
+      <a mat-menu-item>Ceiling Lamp</a>
+      <a mat-menu-item>Emergency Lights</a>
+    </mat-menu>
+    <mat-menu #homeImprovement="matMenu">
+      <a mat-menu-item>Tools & Measuring Equipments</a>
+      <a mat-menu-item>Home Utilities & Organizers</a>
+      <a mat-menu-item>Lawn & Gardening</a>
+      <a mat-menu-item>Bathroom & Kitchen Fittings</a>
+    </mat-menu>
+    <mat-menu #smartHomeautomation="matMenu">
+      <a mat-menu-item>Smart Security System</a>
+      <a mat-menu-item>Smart Door Locks</a>
+    </mat-menu>
+    <mat-menu #furnishing="matMenu">
+      <a mat-menu-item>Bedsheets</a>
+      <a mat-menu-item>Curtains</a>
+      <a mat-menu-item>Cushions & Pillows</a>
+      <a mat-menu-item>Blankets</a>
+      <a mat-menu-item>Bath Towels</a>
+      <a mat-menu-item>Kitchen & Table Linen</a>
+      <a mat-menu-item>Floor Coverings</a>
+    </mat-menu>
+    <mat-menu #officeFurniture="matMenu">
+      <a mat-menu-item>Kids Room Furniture</a>
+    </mat-menu>
+    <mat-menu #diyFurniture="matMenu">
+      <a mat-menu-item>Bean Bags</a>
+      <a mat-menu-item>Collapsible Wardrobes</a>
+    </mat-menu>
+    <mat-menu #livingroomFurniture="matMenu">
+      <a mat-menu-item>Sofa</a>
+      <a mat-menu-item>Sofa Beds</a>
+      <a mat-menu-item>TV Units</a>
+      <a mat-menu-item>Dining Tables & Chairs</a>
+      <a mat-menu-item>Coffee Tables</a>
+      <a mat-menu-item>Shoe Racks</a>
+    </mat-menu>
+    <mat-menu #bedroomFurniture="matMenu">
+      <a mat-menu-item>Beds</a>
+      <a mat-menu-item>Mattresses</a>
+      <a mat-menu-item>Wardrobes</a>
+    </mat-menu>
+    <mat-menu #kitchenStorage="matMenu">
+      <a mat-menu-item>Water Bottles</a>
+      <a mat-menu-item>Lunch Boxes</a>
+      <a mat-menu-item>Flasks</a>
+      <a mat-menu-item>Casseroles</a>
+      <a mat-menu-item>Kitchen Containers</a>
+    </mat-menu>
+    <mat-menu #tableWare="matMenu">
+      <a mat-menu-item>Coffee Mugs</a>
+      <a mat-menu-item>Dinner Set</a>
+      <a mat-menu-item>Barware</a>
+    </mat-menu>
+    <mat-menu #kitchenCookware="matMenu">
+      <a mat-menu-item>Pans</a>
+      <a mat-menu-item>Tawas</a>
+      <a mat-menu-item>Pressure Cookers</a>
+      <a mat-menu-item>Kitchen tools</a>
+      <a mat-menu-item>Gas Stoves</a>
+    </mat-menu>
+    <mat-menu #baby="matMenu">
+      <a mat-menu-item>Kids Clothing</a>
+      <a [matMenuTriggerFor]="boysCloth" mat-menu-item>Boys' Clothing</a>
+      <a [matMenuTriggerFor]="girlsCloth" mat-menu-item>Girls' Clothing</a>
+      <a [matMenuTriggerFor]="babyBoy" mat-menu-item>Baby Boy Clothing</a>
+      <a [matMenuTriggerFor]="babyGirl" mat-menu-item>Baby Girl Clothing</a>
+      <a [matMenuTriggerFor]="boysFootwear" mat-menu-item>Boys' Footwear</a>
+      <a [matMenuTriggerFor]="girlsFootwear" mat-menu-item>Girls' Footwear</a>
+      <a mat-menu-item>Baby Footwear </a>
+      <a [matMenuTriggerFor]="kidsWinterwear" mat-menu-item>Kids Winter Wear</a>
+      <a [matMenuTriggerFor]="toys" mat-menu-item>Toys</a>
+      <a [matMenuTriggerFor]="schoolSupplies" mat-menu-item>School Supplies</a>
+      <a [matMenuTriggerFor]="babyCare" mat-menu-item>Baby Care</a>
+      <a [matMenuTriggerFor]="featuredKids" mat-menu-item>Featured</a>
+    </mat-menu>
+    <mat-menu #featuredKids="matMenu">
+      <a mat-menu-item>Miss & Chief</a>
+      <a mat-menu-item>Barbie</a>
+      <a mat-menu-item>Disney</a>
+      <a mat-menu-item>United Colors of Benetton</a>
+      <a mat-menu-item>The Children's Place</a>
+      <a mat-menu-item>US Polo</a>
+      <a mat-menu-item>Flying Machine</a>
+      <a mat-menu-item>Crocs</a>
+      <a mat-menu-item>Puma</a>
+      <a mat-menu-item>Funskool</a>
+      <a mat-menu-item>Lego</a>
+      <a mat-menu-item>Luvlap</a>
+      <a mat-menu-item>Mamy Poko</a>
+      <a mat-menu-item>Mee Mee</a>
+    </mat-menu>
+    <mat-menu #babyCare="matMenu">
+      <a mat-menu-item>Diapers</a>
+      <a mat-menu-item>Wipes</a>
+      <a mat-menu-item>Diapering & Potty Training</a>
+      <a mat-menu-item>Baby Bath, Hair & Skin Care</a>
+      <a mat-menu-item>Baby Grooming</a>
+      <a mat-menu-item>Baby Bathing Accessories</a>
+      <a mat-menu-item>Baby Gift Sets & Combo</a>
+      <a mat-menu-item>Baby Oral Care</a>
+      <a mat-menu-item>Nursing & Breast Feeding</a>
+      <a mat-menu-item>Baby Food</a>
+      <a mat-menu-item>Baby Feeding Bottle & Accessories</a>
+      <a mat-menu-item>Baby Feeding Utensils & Accessories</a>
+      <a mat-menu-item>Baby Bedding</a>
+      <a mat-menu-item>Baby Gear</a>
+      <a mat-menu-item>Baby Medical & Health Care</a>
+      <a mat-menu-item>Baby Proofing & Safety</a>
+      <a mat-menu-item>Baby Cleaners & Detergents</a>
+    </mat-menu>
+    <mat-menu #schoolSupplies="matMenu">
+      <a mat-menu-item>School Bags</a>
+      <a mat-menu-item>School Combo Sets</a>
+      <a mat-menu-item>Lunch Box</a>
+    </mat-menu>
+    <mat-menu #toys="matMenu">
+      <a mat-menu-item>Remote Control Toys</a>
+      <a mat-menu-item>Educational Toys</a>
+      <a mat-menu-item>Soft Toys</a>
+      <a mat-menu-item>Cars & Die-cast Vehicles</a>
+      <a mat-menu-item>Outdoor Toys</a>
+      <a mat-menu-item>Action Figures</a>
+      <a mat-menu-item>Board Games</a>
+      <a mat-menu-item>Musical Toys</a>
+      <a mat-menu-item>Dolls & Doll Houses</a>
+      <a mat-menu-item>Puzzles</a>
+      <a mat-menu-item>S.T.E.M Toys</a>
+      <a mat-menu-item>Helicopter & Drones</a>
+      <a mat-menu-item>Toy Guns</a>
+      <a mat-menu-item>Party Supplies</a>
+    </mat-menu>
+    <mat-menu #kidsWinterwear="matMenu">
+      <a mat-menu-item>Boys Winter Wear</a>
+      <a mat-menu-item>Girls Winter Wear</a>
+      <a mat-menu-item>Infants Winter Wear</a>
+      <a mat-menu-item>Thermals</a>
+      <a mat-menu-item>Kids' Watches</a>
+      <a mat-menu-item>Kids' Sunglasses</a>
+    </mat-menu>
+    <mat-menu #girlsFootwear="matMenu">
+      <a mat-menu-item>Flats & Bellies</a>
+      <a mat-menu-item>Sport Shoes</a>
+    </mat-menu>
+    <mat-menu #boysFootwear="matMenu">
+      <a mat-menu-item>Sandals</a>
+      <a mat-menu-item>Sport Shoes</a>
+    </mat-menu>
+    <mat-menu #babyGirl="matMenu">
+      <a mat-menu-item>Body Suits</a>
+      <a mat-menu-item>Dresses</a>
+    </mat-menu>
+    <mat-menu #boysCloth="matMenu">
+      <a mat-menu-item>Polos & T-Shirts</a>
+      <a mat-menu-item>Ethnic Wear</a>
+      <a mat-menu-item>Shorts & 3/4ths</a>
+    </mat-menu>
+    <mat-menu #girlsCloth="matMenu">
+      <a mat-menu-item>Dresses & Skirts</a>
+      <a mat-menu-item>Ethnic Wear</a>
+      <a mat-menu-item>T-shirts & Tops</a>
+    </mat-menu>
+    <mat-menu #babyBoy="matMenu">
+      <a mat-menu-item mat-menu>Body Suits</a>
+      <a mat-menu-item mat-menu>Polos & T-Shirts</a>
+    </mat-menu>
+    <mat-menu #men="matMenu">
+      <a [matMenuTriggerFor]="footwear" mat-menu-item>Footwear</a>
+      <a [matMenuTriggerFor]="grooming" mat-menu-item>Men's Grooming</a>
+      <a [matMenuTriggerFor]="topWear" mat-menu-item>Top Wear</a>
+      <a [matMenuTriggerFor]="bottomWear" mat-menu-item>Bottom Wear</a>
+      <a mat-menu-item>Ties,Socks,Caps & More</a>
+      <a mat-menu-item>Kurta,Pyjamas & More</a>
+      <a [matMenuTriggerFor]="seasonWear" mat-menu-item>Seasonal Wear</a>
+      <a [matMenuTriggerFor]="sportsWear" mat-menu-item>Sports Wear</a>
+      <a [matMenuTriggerFor]="sleepWear" mat-menu-item>Inner & Sleep Wear</a>
+      <a [matMenuTriggerFor]="watches" mat-menu-item>Watches</a>
+      <a [matMenuTriggerFor]="menAccessories" mat-menu-item>Accessories</a>
+      <a [matMenuTriggerFor]="menFeatured" mat-menu-item>Featured</a>
+    </mat-menu>
+    <mat-menu #menFeatured>
+      <a mat-menu-item>Watches Store</a>
+      <a mat-menu-item>Footwear Club</a>
+      <a mat-menu-item>Bags & Wallet</a>
+      <a mat-menu-item>T-Shirt Store</a>
+      <a mat-menu-item>Adidas</a>
+      <a mat-menu-item>Beardo</a>
+      <a mat-menu-item>Reebok</a>
+      <a mat-menu-item>Skechers</a>
+      <a mat-menu-item>Nike</a>
+    </mat-menu>
+    <mat-menu #menAccessories>
+      <a mat-menu-item>Backpacks</a>
+      <a mat-menu-item>Wallets</a>
+      <a mat-menu-item>Belts</a>
+      <a mat-menu-item>Sunglasses</a>
+      <a mat-menu-item>Luggage & Travel</a>
+      <a mat-menu-item>Frames</a>
+      <a mat-menu-item>Jewellery</a>
+    </mat-menu>
+    <mat-menu #watches="matMenu">
+      <a mat-menu-item>Fastrack</a>
+      <a mat-menu-item>Casio</a>
+      <a mat-menu-item>Titan</a>
+      <a mat-menu-item>Fossil</a>
+      <a mat-menu-item>Sonata</a>
+    </mat-menu>
+    <mat-menu #sleepWear="matMenu">
+      <a mat-menu-item>Briefs & Trunks</a>
+      <a mat-menu-item>Vests</a>
+      <a mat-menu-item>Boxers</a>
+      <a mat-menu-item>Thermals</a>
+    </mat-menu>
+    <mat-menu #sportsWear="matMenu">
+      <a mat-menu-item>Sports T-Shirts</a>
+      <a mat-menu-item>Track Pants</a>
+      <a mat-menu-item>Track Suits</a>
+      <a mat-menu-item>Shorts</a>
+    </mat-menu>
+    <mat-menu #seasonWear="matMenu">
+      <a mat-menu-item>Sweaters</a>
+      <a mat-menu-item>Jackets</a>
+      <a mat-menu-item>Sweatshirts</a>
+      <a mat-menu-item>Thermals</a>
+      <a mat-menu-item>Raincoats</a>
+    </mat-menu>
+    <mat-menu #bottomWear="matMenu">
+      <a mat-menu-item>Jeans</a>
+      <a mat-menu-item>Trousers</a>
+      <a mat-menu-item>Shorts & 3/4ths</a>
+      <a mat-menu-item>Cargos</a>
+      <a mat-menu-item>Track pants</a>
+    </mat-menu>
+    <mat-menu #topWear="matMenu">
+      <a mat-menu-item>T-Shirts</a>
+      <a mat-menu-item>Shirts</a>
+      <a mat-menu-item>Kurtas</a>
+      <a mat-menu-item>Suits & Blazers</a>
+    </mat-menu>
+    <mat-menu #grooming="matMenu">
+      <a mat-menu-item>Deodorants</a>
+      <a mat-menu-item>Perfumes</a>
+      <a mat-menu-item>Beard Care & Grooming</a>
+      <a mat-menu-item>Shaving & Aftershave</a>
+      <a mat-menu-item>Sexual Wellness</a>
+    </mat-menu>
+    <mat-menu #footwear="matMenu">
+      <a mat-menu-item>Sports Shoes</a>
+      <a mat-menu-item>Casual Shoes</a>
+      <a mat-menu-item>Formal Shoes</a>
+      <a mat-menu-item>Sandals & Floaters</a>
+      <a mat-menu-item>Flip- Flops</a>
+      <a mat-menu-item>Loafers</a>
+      <a mat-menu-item>Boots</a>
+      <a mat-menu-item>Running Shoes</a>
+      <a mat-menu-item>Sneakers</a>
+    </mat-menu>
+    <mat-menu #electronics="matMenu">
+      <a mat-menu-item [matMenuTriggerFor]="mobile">Mobile</a>
+      <a mat-menu-item [matMenuTriggerFor]="smartwear">Smart Wearables</a>
+      <a mat-menu-item [matMenuTriggerFor]="healthApplicance"
+        >Healthcare Appliances</a
+      >
+      <a mat-menu-item [matMenuTriggerFor]="laptop">Laptop</a>
+      <a mat-menu-item [matMenuTriggerFor]="speakers">Speakers</a>
+      <a mat-menu-item [matMenuTriggerFor]="television">Televsion</a>
+      <a mat-menu-item [matMenuTriggerFor]="camera">Camera</a>
+      <a mat-menu-item [matMenuTriggerFor]="netComponents"
+        >Network Components</a
+      >
+      <a mat-menu-item [matMenuTriggerFor]="featured">Featured</a>
+    </mat-menu>
+    <mat-menu #featured="matMenu">
+      <a mat-menu-item>Google Assistant Store</a>
+      <a mat-menu-item>Laptops on Buyback Guarantee</a>
+      <a mat-menu-item>Flipkart SmartBuy</a>
+      <a mat-menu-item>Li-Polymer Power Banks</a>
+      <a mat-menu-item>Sony PS4 Pro & Slim</a>
+      <a mat-menu-item>Apple Products</a>
+      <a mat-menu-item>Microsoft Store</a>
+      <a mat-menu-item>Lenovo Phab Series</a>
+      <a mat-menu-item>JBL Speakers</a>
+      <a mat-menu-item>Smartphones On Buyback Guarantee</a>
+      <a mat-menu-item>Philips</a>
+      <a mat-menu-item>Dr. Morepen</a>
+      <a mat-menu-item>Complete Mobile Protection</a>
+      <a mat-menu-item>Mobiles No Cost EMI</a>
+    </mat-menu>
+    <mat-menu #netComponents="matMenu">
+      <a mat-menu-item>Routers</a>
+      <a mat-menu-item>Repeaters</a>
+    </mat-menu>
+    <mat-menu #camera="matMenu">
+      <a mat-menu-item>DSLR & Mirrorless</a>
+      <a mat-menu-item>Compact & Bridge Cameras</a>
+      <a mat-menu-item>Sports & Action</a>
+    </mat-menu>
+    <mat-menu #television="matMenu">
+      <a mat-menu-item>Sony</a>
+      <a mat-menu-item>Mi</a>
+      <a mat-menu-item>Vu</a>
+      <a mat-menu-item>Thomson</a>
+      <a mat-menu-item>Samsung</a>
+      <a mat-menu-item>iFFALCON by TCL</a>
+      <a mat-menu-item>Nokia</a>
+      <a mat-menu-item>LG</a>
+      <a mat-menu-item>BPL</a>
+      <a mat-menu-item>Motorola</a>
+    </mat-menu>
+    <mat-menu #speakers="matMenu">
+      <a mat-menu-item>Home Audio Speakers</a>
+      <a mat-menu-item>Home Theatres</a>
+      <a mat-menu-item>Soundbars</a>
+      <a mat-menu-item>Bluetooth Speakers</a>
+      <a mat-menu-item>DTH Set Top Box</a>
+    </mat-menu>
+    <mat-menu #laptops="matMenu">
+      <a mat-menu-item>Gaming Laptop</a>
+      <a mat-menu-item>Everyday Laptop</a>
+      <a mat-menu-item>Business Laptop</a>
+    </mat-menu>
+    <mat-menu #laptopAccessories="matMenu">
+      <a mat-menu-item>External Hard Disks</a>
+      <a mat-menu-item>Pendrives</a>
+      <a mat-menu-item>Laptop Skins & Decals</a>
+      <a mat-menu-item>Laptop Bags</a>
+      <a mat-menu-item>Laptop Cases</a>
+      <a mat-menu-item>Mouses</a>
+    </mat-menu>
+    <mat-menu #laptop="matMenu">
+      <a mat-menu-item [matMenuTriggerFor]="laptops">Laptops</a>
+      <a mat-menu-item [matMenuTriggerFor]="laptopAccessories"
+        >Laptop Accessories</a
+      >
+    </mat-menu>
+    <mat-menu #healthApplicance="matMenu">
+      <a mat-menu-item>Bp Monitors</a>
+      <a mat-menu-item>Weighing Scale</a>
+    </mat-menu>
+    <mat-menu #smartwear="matMenu">
+      <a mat-menu-item>Smart Watches</a>
+      <a mat-menu-item>Smart Glasses (VR)</a>
+      <a mat-menu-item>Smart Bands</a>
+    </mat-menu>
+    <mat-menu #mobile="matMenu">
+      <a mat-menu-item id="mobile" [matMenuTriggerFor]="mobiles">Mobiles</a>
+      <a mat-menu-item [matMenuTriggerFor]="mobileAccessories"
+        >Mobile Accessories</a
+      >
+    </mat-menu>
+    <mat-menu #mobileAccessories="matMenu">
+      <a mat-menu-item>Mobile Cases</a>
+      <a mat-menu-item>Headphones & Headsets</a>
+      <a mat-menu-item>Power Banks</a>
+      <a mat-menu-item>Screenguards</a>
+      <a mat-menu-item>Memory Cards</a>
+      <a mat-menu-item>Smart Headphones</a>
+      <a mat-menu-item>Mobile Cables</a>
+      <a mat-menu-item>Mobile Chargers</a>
+      <a mat-menu-item>Mobile Holders</a>
+    </mat-menu>
+
+    <mat-menu #mobiles="matMenu">
+      <a mat-menu-item>Mi</a>
+      <a mat-menu-item>Realme</a>
+      <a mat-menu-item>Samsung</a>
+      <a mat-menu-item>Infinix</a>
+      <a mat-menu-item>OPPO</a>
+      <a mat-menu-item>Apple</a>
+      <a mat-menu-item>Vivo</a>
+      <a mat-menu-item>Honor</a>
+      <a mat-menu-item>Asus</a>
+      <a mat-menu-item>realme 5i</a>
+      <a mat-menu-item>Samsung S10 Lite</a>
+      <a mat-menu-item>Redmi 8A</a>
+      <a mat-menu-item>Redmi 8</a>
+      <a mat-menu-item>Vivo Z1Pro</a>
+      <a mat-menu-item>realme X2</a>
+      <a mat-menu-item>OPPO F15</a>
+      <a mat-menu-item>Asus ROG Phone II</a>
+    </mat-menu>
+    <br /><br />
+    <ng-content id="body"></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

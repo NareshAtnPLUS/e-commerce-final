@@ -1,0 +1,10 @@
+<h1 class="tab-header">OTP.</h1>
+<form [formGroup]="otpForm" (ngSubmit)="onOtpSubmit();">
+    <span class="search-button">
+        <mat-form-field appearance="fill" class="fog-full-width">
+            <mat-label>Enter OTP</mat-label>
+            <input matInput type="text" formControlName="otp" name="otp" class="form-control" id="otp" required>
+        </mat-form-field>
+    </span>
+    <button id="otp-button" [disabled]="!otpForm.valid" mat-raised-button color="primary" class="button" type="submit">Update Password <i class="material-icons">compare_arrows</i></button>
+</form>

@@ -1,0 +1,24 @@
+<div *ngFor="let mobile of products.mobile" class="home-container">
+  <mat-card class="example-card">
+    <mat-card-header>
+      
+      <mat-card-title><h2>{{mobile.general.brand}}</h2></mat-card-title>
+      <mat-card-subtitle><h3>{{mobile.general.modelName}}</h3></mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image src="./../../../assets/samsung.jpg" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+        <div><h2>{{ mobile.general.brand }} {{ mobile.general.modelName }} ({{ mobile.general.modelNumber }})</h2></div>
+        <div><h2>Display Features: {{ mobile.displayFeatures.size }}" {{ mobile.displayFeatures.resolution }}</h2></div>
+        <div><h2>Android Version: {{ mobile.osAndProcessor.os }} {{ mobile.osAndProcessor.version }}</h2></div>
+        <div><h2>Processor Variant: {{ mobile.osAndProcessor.psrBrand }} {{ mobile.osAndProcessor.psrName }} [{{ mobile.osAndProcessor.core }} Cores]</h2></div>
+        <div><h2>Primary Camera: {{ mobile.camera.primaryCamera }}</h2></div>
+        <div><h2>Secondary Camera: {{ mobile.camera.secondaryCamera }}</h2></div>
+        
+      
+    </mat-card-content>
+    <mat-card-actions>
+      <button color="accent" (click)="onBuySubmit(mobile)" mat-raised-button>Buy Now</button>
+      <button color="accent" (click)="addCart(mobile)" *ngIf="authService.isLoggedIn()" mat-raised-button>Add to cart</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

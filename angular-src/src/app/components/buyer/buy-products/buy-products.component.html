@@ -1,0 +1,39 @@
+<mat-card class="container">
+    <mat-card-content>
+        <div class="row">
+            <mat-radio-group class="order-radio-group" [(ngModel)]="variant">
+                <mat-radio-button class="order-radio-button" *ngFor="let variant of variants" [value]="variant">
+                    <div><h2>Price: ₹.{{ variant.price }}</h2></div>
+                    <div><h2>Internal Storage: {{ variant.internalStorage }}GB</h2></div>
+                    <div><h2>Expandable Memory: {{ variant.expandableMemory }}GB</h2></div>
+                    <div><h2>RAM: {{ variant.ram }}GB</h2></div>
+                    &nbsp;&nbsp;
+
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div><h4>You've selected : {{variant.internalStorage}}GB ROM and {{variant.ram}}GB RAM </h4></div>
+        <form [formGroup]="orderForm" (ngSubmit)="onOrderSubmit()">
+            <div class="row">
+                <mat-form-field class="reg-full-width">
+                    <mat-label>Door No</mat-label>
+                    <input matInput type="text" formControlName="doorNo" name="doorNo" class="form-control" id="doorNo" required>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="reg-full-width">
+                    <mat-label>Street</mat-label>
+                    <input matInput type="text" formControlName="street" name="street" class="form-control" id="street" required>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="reg-full-width">
+                    <mat-label>State</mat-label>
+                    <input matInput type="text" formControlName="state" name="state" class="form-control" id="state" required>
+                </mat-form-field>
+            </div>
+            <button type="submit" mat-raised-button color="accent">Order &nbsp;&nbsp;<i class="material-icons">input</i></button>
+        </form>
+    </mat-card-content>
+</mat-card>
+<!--[disabled]="!orderForm.valid"-->
